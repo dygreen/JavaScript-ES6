@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>변수 연습문제</title>
+</head>
+<body>
+  <div style="display : none">모달창0</div>
+  <div style="display : none">모달창1</div>
+  <div style="display : none">모달창2</div>
+
+  <button>버튼0</button>
+  <button>버튼1</button>
+  <button>버튼2</button>
+
+
+  <script>
+    //  Q1~4. 다음 코드의 콘솔창 출력결과는 무엇일까요?
+    // Q1.
+    함수(); // 함수를 만들기 전에 호출해도 됨 -> 함수의 선언이 hoisting되기 때문
+    function 함수() {
+      // console.log(안녕);
+      let 안녕 = 'Hello!'; // 변수를 선언하기 전에 출력하면 (var 제외 - var는 undefined 출력) error 메시지가 뜸
+      // -> let,const는 hoisting이 되긴 되지만, var같이 undefined가 자동으로 할당되지 않고 빈값으로 남겨두기 때문에 error가 뜸
+    } 
+
+
+    // Q2.
+    /* console : 함수2 is not a function
+    var 함수2;
+    var 안녕; 
+    -> var의 변수 선언이 호이스팅됨 -> undefined
+    따라서 '함수2()'는 아직 함수가 할당되지 않았으므로 not a function error
+     */
+    // 함수2();
+    var 함수2 = function() {
+      // console.log(안녕);
+      var 안녕 = 'Hello!';
+    } 
+
+
+    // Q3.
+    let a = 1;
+    var 함수 = function() {
+      a = 2;
+    }
+    console.log(a); // 1 -> 함수를 아직 실행하지 않았기 때문 (바로 위에)함수();를 실행하면 a값은 2가 됨
+
+
+    // Q4. 
+    let a2 = 1;
+    var b2 = 2;
+    window.a2 = 3;
+    window.b2 = 4;
+
+    console.log(a2 + b2); // 5 -> 'var b2 = 2' 와 'window.b2 = 4'는 같은 의미 > 따라서 b2는 4가 됨
+    // 변수를 출력/사용할 때는 가장 가까운 범위를 사용함 -> let a2 = 1이 가까우므로 a2는 1이 됨
+
+
+    // Q5.
+    /* setTimeout(function() { console.log(1); }, 1000 ); 
+    setTimeout(function() { console.log(2); }, 2000 ); 
+    setTimeout(function() { console.log(3); }, 3000 ); 
+    setTimeout(function() { console.log(4); }, 4000 ); 
+    setTimeout(function() { console.log(5); }, 5000 );  */
+
+    // 반복문 축약 -> 5라는 숫자만 1초마다 출력되는 문제 why?
+   /*  for (var i = 0; i < 5; i++) { 
+      setTimeout(function() { console.log(i); }, i*1000 ); 
+    } */
+    
+
+    /* why?
+    반복문이 돌면, 반복문 안에 있는 `console.log(i);`는 바로 실행되는 코드가 아니고 반복문을 다 읽고 n초 후에 실행되는 코드임
+    i 값은 'var i = 5;'의 형태로 반복문이 다 실행되고 전역변수로 남아있음
+    (반복문은 찰나의 순간 0.1초도 안되는 속도로 다 돌기 때문)
+    n초 후에 `console.log(i);`코드를 실행하려고 i를 찾는데 전역변수 i는 5임
+    5를 채워 넣어서 반복문을 돌림 -> 5가 1초마다 5번 출력됨
+
+    i 값을 let으로 선언하면, let의 범위가 {}이므로
+    for (let i = 0; i < 5; i++) { 
+      let i = 0;
+      setTimeout(function() { console.log(i); }, i*1000 ); 
+    } 
+    이런식으로 참조할 수 있는 범위가 생김
+    n초 후에 `console.log(i);`코드를 실행하려고 i를 찾는데 for{} 안에 있는 let i 사용가능
+    */
+
+
+    // Q6. 
+    var 버튼들 = document.querySelectorAll('button');
+    var 모달창들 = document.querySelectorAll('div');
+
+    /* 버튼들[0].addEventListener('click', function(){
+      모달창들[0].style.display = 'block';
+    });
+
+    버튼들[1].addEventListener('click', function(){
+      모달창들[1].style.display = 'block';
+    });
+
+    버튼들[2].addEventListener('click', function(){
+      모달창들[2].style.display = 'block';
+    }); */
+
+    // 반복문 축약 -> 제대로 동작하지 않음 why?
+    for (var i = 0; i < 3; i++){
+
+      버튼들[i].addEventListener('click', function(){
+        모달창들[i].style.display = 'block';
+      });
+
+    }
+
+
+    /* why?
+    1. 반복문 내 코드 3번 돌림
+    2. 근데 이벤트리스너 내부 코드는 나중에 실행함
+    3. 좀 있다가 버튼을 클릭하면 내부 코드 실행함
+    4. 이제 i 값을 실제 숫자로 채우려고 봤더니
+    5. i = 3 밖에 없음(반복문 다 돌고 남은 전역변수 i = 3)
+
+    ** 반복문이 도는 시점과 코드가 실행되는 시점이 다르기 때문! **
+    */
+
+  </script>
+</body>
+</html>

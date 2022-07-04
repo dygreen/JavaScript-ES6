@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>this</title>
+</head>
+<body>
+  <button id="btn">btn</button>
+
+  <script>
+    /* ************** this의 값은 함수가 쓰인 위치가 어디인지 파악하면 됨 ************** */
+
+    /* 1. 그냥 쓰거나 일반함수 안에서 쓰면: {window} */
+    console.log(this); // window
+
+    function 함수(){
+      console.log(this);
+    }
+    함수(); // window
+
+
+    /* 2. strict mode + 일반함수 내에서 쓰면: undefined */
+    /* 
+      'use strict';
+      function(함수){
+        console.log(this);
+      }
+      함수(); -> undefined
+    */
+
+
+    /* 3-1. (기존 함수 문법) object 내 함수(=메소드) 안에서 쓰면: 그 함수(=메소드)를 가지고 있는 object를 뜻함 
+    => this는 object 내의 메소드(함수)에서 사용했을 때 메소드의 주인님 object를 출력해준다!
+    */
+    var 오브젝트 = {
+      data : {
+        함수 : function(){
+          console.log(this);
+        }
+      }
+    }
+    오브젝트.data.함수(); // 오브젝트.data를 뜻함
+    
+    /* =========== 신 문법: object 안에 함수 넣을 때 ===========
+    var 오브젝트 = {
+      data : {
+        함수(){
+          console.log(this);
+        }
+      }
+    }
+    */
+
+
+    /* 3-2. (신 문법) arrow function 사용했을 경우 */
+    var 오브젝트2 = {
+      data : {
+        함수 : () => {
+          console.log(this);
+        }
+      }
+    }
+    오브젝트2.data.함수(); // window가 출력됨
+    // this 값을 새로 만들지 않고, 함수 밖에 있던거(상위요소의 this값을) 그대로 씀
+    // 내부의 this 값을 변화시키지 않고, 위에 있는 this 값을 물려다 씀
+    // 외부 this 값 그대로 재사용 가능
+
+
+    /* =========== window ? ===========
+    = window는 모든 전역변수, 함수, DOM을 보관하고 관리하는 전역객체(object)
+    => 자바스크립트 함수들(document.getElementById(), alert(), console.log()...)을 보관하는 보관소
+    => 그냥 큰 {오브젝트}
+    */
+
+
+    /* 4. this를 기계 안에서 쓰면 새로 생성되는 오브젝트(instance)를 뜻함 */
+    function 기계(){
+      this.이름 = 'kim';
+    }
+    var 오브젝트 = new 기계(); // 오브젝트 출력해보면 -> 기계{이름: 'kim'}
+
+
+    /* 5. 이벤트리스너 안에서의 this === e.currentTarget */
+    document.getElementById('btn').addEventListener('click', function(e){
+      console.log(this);
+      console.log(e.currentTarget); // = 지금 이벤트 동작하는 곳
+
+      // Case1. 반복문을 돌려보면
+      var 어레이 = [1,2,3];
+      어레이.forEach(function(a){
+        console.log(this); // window가 3번 출력됨 -> 1번 상황(일반함수 내의 this)이기 때문
+      });
+    });
+
+    /* Case2. 오브젝트 내에서 콜백함수를 쓴다면 this는? */
+    var 오브젝트 = {
+      이름들: ['김', '이', '박'],
+      함수: function(){
+        console.log(this); // 오브젝트 값들이 출력됨(= {이름들: ..., 함수: f}) -> 3-1번 상황
+        오브젝트.이름들.forEach(function(){
+          console.log(this); // window가 3번 출력됨 -> 1번 상황
+        });
+      }
+    }
+    오브젝트.함수();
+    
+    // Case3. arrow function 안에서의 this?
+    var 오브젝트 = {
+      이름들: ['김', '이', '박'],
+      함수: function(){
+        오브젝트.이름들.forEach(() => {
+          console.log(this);
+        });
+      }
+    }
+    오브젝트.함수();
+
+    /* ===== 함수 문법을 사용하는 이유 =====
+    1. 여러가지 기능을 하는 코드를 한 단어로 묶고 싶을 때(나중에 재사용할 때)
+    2. 입출력 기계를 만들고 싶을 때 사용
+    */
+
+    /* ************** Arrow Function ************** */
+    // 1. 함수 본연의 입출력 기능을 직관적으로 잘 표현해줌
+    // 2. 파라미터 1개면 소괄호 생략 가능
+    // 3. 코드 한줄이면 중괄호도 생략 가능
+    var 함수 = a => a + 10;
+
+    [1,2,3,4].forEach( a => console.log(a) );
+
+    document.getElementById('btn').addEventListener('click', (e) => {
+      console.log(e.currentTarget);
+      console.log(this);
+    });
+
+    var 오브젝트 = {
+      함수: () => {
+        return this // window
+      }
+    }
+    오브젝트.함수();
+
+  </script>
+</body>
+</html>

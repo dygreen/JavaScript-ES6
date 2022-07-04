@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>this 연습문제</title>
+</head>
+<body>
+  <button id="버튼">버튼이에요</button>
+
+  <script>
+    // Q1. 사람.sayHi()라고 작성하면 콘솔창에 '안녕 나는 손흥민' 출력하도록
+    var 사람 = {
+      name: '손흥민',
+      sayHi: function(){
+        console.log(`안녕 나는 ${this.name}`);
+      }
+    }
+    사람.sayHi();
+
+
+    // Q2. 오브젝트 내의 데이터를 전부 더해주는 메소드만들기(중괄호 밖에 함수 만들기)
+    var 자료 = {
+      data: [1,2,3,4,5]
+    }
+    자료.전부더하기 = function(){
+      let 합 = 0;
+      this.data.forEach(function(i){
+        합 += i;
+      });
+      console.log(합);
+    }
+    자료.전부더하기();
+
+
+    // Q3. setTimeout을 이용해 1초 후에 this.innerHTML을 콘솔창에 출력
+    // -> arrow funcion 이용
+    document.getElementById('버튼').addEventListener('click',   function(){
+      // console.log(this.innerHTML); -> 위에 있는 this 값 (#버튼)
+      setTimeout(() => console.log(this.innerHTML), 1000); /* arrow function이 아닌 일반 함수를 사용했을 땐 this값이 window이지만, arrow function은 위에 있는 this 값을 가져다 쓰기 때문에 제대로 동작한다 */
+    });
+
+  </script>
+</body>
+</html>

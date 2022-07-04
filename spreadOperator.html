@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>spread operator</title>
+</head>
+<body>
+  <script>
+    // 1.
+    var 어레이 = ['hello', 'world'];
+    console.log(...어레이); // hello world
+    console.log('hello', 'world'); // hello world
+
+    // 2.
+    var 문자 = 'hello';
+    console.log(...문자); // h e l l o
+    console.log('h','e','l','l','o'); // h e l l o
+
+    /* ...spread operator
+    1. Array에 붙이면 대괄호를 제거해줌
+    2. 문자에 붙이면 펼쳐줌
+    */
+
+
+    // 1.
+    var a = [1,2,3];
+    var b = [4,5];
+
+    var c = [...a, ...b];
+    console.log(c);
+
+
+    
+    /* 쓸 곳
+    1. 어레이 합치기 / 복사
+    
+    */
+  </script>
+</body>
+</html>

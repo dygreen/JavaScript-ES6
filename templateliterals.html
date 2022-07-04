@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>template literals</title>
+</head>
+<body>
+  <script>
+    /* backquote 문자열의 장점
+    1. 엔터키 가능
+    2. 중간중간 변수넣기 쉬움
+    */
+
+
+    // **** tagged literal : `문자`를 해체분석할 수 있음
+    /* 단어 순서를 변경하거나 | 단어를 제거하거나 | ${변수} 위치를 옮기거나
+    -> 해체분석용 함수를 만든 뒤에 파라미터 2개 넣기
+    파라미터 1 = 문자들을 Array화 해줌
+    파라미터 2 = ${변수}를 뜻함
+    파라미터 3 = 두번째 ${변수}를 뜻함
+    */
+    var 변수 = '손흥민';
+    var 변수2 = '반갑습니다.';
+    var 문자 = `안녕하세요 ${변수} 입니다.`;
+
+    function 해체분석기(문자들, 변수들, 변수들2){
+      console.log(문자들); // (2) ['안녕하세요 ', ' 입니다', raw: Array(2)]
+      console.log(변수들); // 손흥민
+      console.log(변수들2); // 반갑습니다.
+    }
+
+    해체분석기`안녕하세요 ${변수} 입니다 ${변수2}`;
+
+
+    // 글자의 순서를 변경하고 싶을 때
+    function 해체분석기2(문자들, 변수들){
+      console.log(문자들[1] + 변수들 + 문자들[0]);
+    }
+
+    해체분석기2`안녕하세요 ${변수} 입니다`; //  입니다손흥민안녕하세요 
+
+
+    // Quiz.
+    // Q1. 문자 중간 '양말'과 '바지' 단어 순서를 바꾸고 싶음
+    var pants = 20;
+    var socks = 100;
+
+    `바지${pants} 양말${socks}`;
+
+    function 해체분석기3(문자들, 변수들, 변수들2){
+      console.log(문자들[1] + 변수들 + 문자들[0] + 변수들2);
+    }
+
+    해체분석기3`바지${pants} 양말${socks}`;
+
+
+    // Q2. pants가 0개면 '바지안팔아요 양말 100'이라는 문자로 바꾸는 해체분석기 제작
+    var pants = 0;
+
+    function 해체분석기4(문자들, 변수들1, 변수들2){
+      if(변수들1 == 0){
+        console.log(`바지안팔아요 양말` + 변수들2);
+      }
+    }
+
+    해체분석기4`바지${pants} 양말${socks}`;
+
+  </script>
+</body>
+</html>
