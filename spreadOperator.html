@@ -19,24 +19,62 @@
     console.log('h','e','l','l','o'); // h e l l o
 
     /* ...spread operator
-    1. Array에 붙이면 대괄호를 제거해줌
+    1. Array에 붙이면 대괄호를 제거해줌, Object에 붙이면 중괄호를 제거해줌
     2. 문자에 붙이면 펼쳐줌
     */
 
 
-    // 1.
+    // 1)
     var a = [1,2,3];
     var b = [4,5];
 
     var c = [...a, ...b];
     console.log(c);
 
+    // 2)
+    var o1 = { a:1, b:2 };
+    var o2 = { a:2, ...o1, c:3 }; // a라는 값이 중복됨 -> {a: 1, b: 2, c: 3}
+    // copy하다 값 중복이 일어나면? 가장 뒤에 있는 걸 적용함
+    console.log(o2);
+    
+    // 3)
+    function 더하기(a,b,c){
+      console.log(a+b+c);
+    }
 
-    
+    var 어레이 = [10,20,30];
+    더하기.apply(undefined, 어레이); // 옛날 방식 : 파라미터로 array를 집어넣을 수 있는 apply 사용 (undefined=그냥 아무 값이나 넣어도 됨=아무곳에도 적용해서 실행하지 않기위해 적은 내용=쌩으로 더하기()함수가 실행됨)
+    더하기(...어레이);
+
     /* 쓸 곳
-    1. 어레이 합치기 / 복사
-    
+    1) 어레이 합치기 / Deep copy
+    2) 오브젝트 합치기 / Deep copy
+      * Deep copy? 
+      = Array와 Object는 reference data type이기 때문에 값이 공유됨
+      각각 독립적인 값을 가지도록 Array, Object를 복사하려면 Spread operator 사용하기
+    3) 함수에 파라미터 넣을 때
     */
+
+    // spread operator : 중괄호, 대괄호, 소괄호 안에서만 쓸 수 있음
+
+
+    // * apply 개념 = 함수를 옮겨와서 실행해주세요
+    var person = {
+      인사 : function(){
+        console.log(this.name + '안녕');
+      }
+    }
+
+    var person2 = {
+      name: '손흥민'
+      /* 인사 : function(){
+        console.log(this.name + '안녕');
+      } -> apply를 쓰면 그냥 인사라는 함수를 옮겨온 것임*/
+    }
+
+    // person.인사()를 person2에 적용하고 싶을 때
+    person.인사.apply(person2, [1,2]); // apply는 파라미터를 array형태로 집어넣기 가능
+    person.인사.call(person2, 1,2);
   </script>
 </body>
 </html>
