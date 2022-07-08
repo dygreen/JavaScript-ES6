@@ -13,3 +13,5 @@
 * Promise + 퀴즈 풀이
 * async/await + 퀴즈 풀이
 * Spread Operator
+* constructor + 퀴즈 풀이
+* prototype + 퀴즈 풀이
