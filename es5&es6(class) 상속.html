@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES5 & ES6 상속</title>
+</head>
+<body>
+  <script>
+    /* 상속 기능을 구현하려면
+    1. constructor 함수를 만들거나 (-> ES6의 class)
+    2. Object.create를 이용하거나
+    */
+    
+    // 상속 기능을 구현하는 ES5 방법 : Object.create()
+    // Object.create(프로토타입 object = 물려받을 부모 object);
+    var 부모 = { name : 'Kim', age : 50 };
+    var 자식 = Object.create(부모); // = prototype을 부모로 해주세요~
+    var 손자 = Object.create(자식);
+    
+    /* console 창에서...
+    '자식' 출력하면 '{}'
+    '자식.name' 출력하면 'Kim' 이 나옴
+    (1) 자식이 name을 직접 갖고 있나? X
+    (2) 그럼 자식의 부모 prototype에는 name이 있나? O
+    */
+
+    // 자식의 age를 바꾸고 싶으면?
+    자식.age = 20;
+
+
+
+    // ===================== class =====================
+    // ES6 : class => constructor 만드는 신문법
+    
+    class 부모2{
+      constructor(){
+        this.name = 'Kim';
+        // this.sayHi = function(){console.log('hello')} // 1.
+      }
+      SayHi(){ // 2.
+        console.log('hello')
+      }
+    }
+    
+    /* 함수를 추가하고 싶으면
+    1. constructor에 추가하든가 -> 자식이 직접 함수를 가짐
+    2. 아래 추가하든가 -> 자식 오브젝트에 추가 안되고, 부모.prototype에 추가됨
+    */
+
+    var 자식2 = new 부모2();
+    // console에 '자식2.__proto__' 출력하면 -> 부모 prototype이 출력됨
+    /* [ 동일한 표현 ]
+    자식2.__proto__;
+    Object.getPrototypeOf(자식2); 
+    */
+
+
+    // ********* extends / super *********
+    class 할아버지 {
+      constructor(name){
+        this.성 = 'Kim';
+        this.이름 = name;
+      }
+      sayHi(){
+        console.log('안녕 저는 할아버지에요');
+      }
+    }
+    // var 할아버지1 = new 할아버지('만덕');
+    
+
+    // - 할아버지의 속성들 그대로 물려받기
+    class 아버지 extends 할아버지 {
+      constructor(name){
+        super(name);
+        this.나이 = 50; // extends해서 만든 class는 this를 그냥 못 씀 -> super() 다음에 써야함
+      }
+      sayHi(){
+        console.log('안녕 저는 아버지에요');
+        super.sayHi();
+      }
+    }
+    var 아버지1 = new 아버지('만수');
+
+
+    /* super() ? = 물려받는 class의 constructor라는 뜻
+
+      this.성 = 'Kim';
+      this.이름 = name;
+
+    이거와 똑같은 내용임
+    */
+
+    /* super의 의미
+    1. constructor 안에서 쓰면 - 부모 class의 constructor를 의미
+    2. constructor 밖에서 쓰면 - 부모 class의 prototype을 의미 (= __proto__)
+    */
+  </script>
+</body>
+</html>

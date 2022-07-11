@@ -15,3 +15,4 @@
 * Spread Operator
 * constructor + 퀴즈 풀이
 * prototype + 퀴즈 풀이
+* Object.create(ES5), class+extends/super(ES6)
