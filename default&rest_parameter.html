@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>함수 업그레이드</title>
+</head>
+<body>
+  <script>
+    // 자바스크립트 함수: 파라미터가 2개 들어가는 함수인데 1개만 써도 에러가 안남
+
+    // ***** 함수의 default 파라미터 : 수학 연산자, 함수 가능 *****
+    function plus(a, b = 2 * a){ // b자리에 아무것도 안넣을 경우 --을 넣어주세요~ -> b자리에 파라미터 안넣었을 때만 발동
+      console.log(a + b)
+    }
+    plus(1); // 3
+
+
+
+    // default 파라미터에 함수 넣기
+    function 임시함수(){
+      return 10
+    }
+
+    function plus2(a, b = 임시함수()){ 
+      console.log(a + b)
+    }
+    plus2(1); // 11
+
+
+
+    // ***** 함수의 arguments : 모든 파라미터를 한꺼번에 싸잡아서 다루고 싶을 경우 arguments 사용하기 *****
+    function 함수(a,b,c){
+      console.log(arguments); // Arguments(3) [1, 2, 3, callee: ƒ, Symbol(Symbol.iterator): ƒ] -> array와 유사한 자료형에 담김
+      console.log(arguments[0]); // 1
+      console.log(arguments[1]); // 2
+      console.log(arguments[2]); // 3
+      // arguments = 모든 파라미터를 [](=array) 안에 넣은 변수
+    }
+
+    함수(1,2,3);
+
+
+    // ***** arguments를 활용한 확장성 가득한 코드 *****
+    function 함수2(a,b,c){
+      for(let i = 0; i < arguments.length; i++){
+        console.log(arguments[i]);
+      }
+    }
+
+    함수2(10,20,30);
+
+    // arguments의 단점: (임시 파라미터는 빼고 반복문을 돌리고 싶을 때 등) arguments라는 자료를 쪼개야 함...
+
+
+    /* arguments VS rest parameter
+    - arguments: 모든 파라미터를 []에 담아줌
+    - rest parameter: 유연하게 []에 담을 수 있음
+    */
+
+
+
+    // ***** Rest 파라미터 *****
+    /* ...
+    1. spread operator = 나머지는 spread
+    2. rest parameter = 함수 파라미터 자리에 붙으면 rest
+    */
+
+    function 함수3(...rest){
+      console.log(rest);
+      // rest : 모든 파라미터를 []에 보관해줌
+    }
+    함수3(1,2,3,4,5,6,7); //(7) [1, 2, 3, 4, 5, 6, 7] : 함수 안에 들어온 파라미터를 전부 담은 array 출력
+
+
+    // 파라미터를 선별해서 []에 담기
+    function 함수4(a,b, ...파라미터들){
+      console.log(파라미터들);
+    }
+    함수4(1,2,3,4,5,6,7); // (5) [3, 4, 5, 6, 7]
+
+
+    // 모든 파라미터들을 하나씩 콘솔창에 출력해주는 함수?
+    function 함수5(...rest){
+      for(let i = 0; i < rest.length; i++){
+        console.log(rest[i]);
+      }
+    }
+    함수5(1,2,3,4,5,6,7,8,9,12,45,78);
+
+
+    /* ...rest 파라미터 주의점
+    1. 가장 뒤에 써야함 -> (...rest, a) (x) | (a, ...rest) (o)
+      * rest parameter = "여기 뒤에 있는 모든 파라미터" 라는 뜻
+    2. 두번 이상 쓸 수 없음 -> (...rest, ...rest2) (x)
+    */
+  </script>
+</body>
+</html>

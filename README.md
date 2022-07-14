@@ -16,3 +16,5 @@
 * constructor + 퀴즈 풀이
 * prototype + 퀴즈 풀이
 * Object.create(ES5), class+extends/super(ES6)
+* default parameter / arguments(old)
+* rest parameter(new) + 퀴즈 풀이
