@@ -18,3 +18,5 @@
 * Object.create(ES5), class+extends/super(ES6)
 * default parameter / arguments(old)
 * rest parameter(new) + 퀴즈 풀이
+* Reference data type + 예제 연습
+* getter / setter + 퀴즈 풀이

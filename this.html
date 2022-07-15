@@ -111,7 +111,7 @@
       이름들: ['김', '이', '박'],
       함수: function(){
         오브젝트.이름들.forEach(() => {
-          console.log(this);
+          console.log(this); // Object(이름들,함수)가 3번 출력됨
         });
       }
     }
