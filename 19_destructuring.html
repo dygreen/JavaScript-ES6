@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destructuring</title>
+</head>
+<body>
+  <script>
+    // *** array 데이터를 전부 변수에 담으려면 ? array destructuring ***
+    var arr = [2,3,4];
+    
+    var [a,b,c] = [2,3,4]; // => a = 2, b = 3, c = 4
+
+
+    // *** array destructuring할 때 몇 개를 뺴먹는다면 - 등호로 기본값 지정 가능(default parameter)
+    var [a,b,c = 10] = [2,3]; // => a = 2, b = 3, c = 10
+    var [a,b,c = 10] = []; // => a = undefined, b = undefined, c = 10 (변수 선언만 하면 원래 undefined가 들어감)
+
+
+
+    // *** object 데이터를 꺼내 변수에 담으려면 ? object destructuring ***
+    var obj = { name : 'Kim', age : 30 };
+    var name = obj.name;
+    var age = obj.age;
+
+    var { name, age } = { name : 'Kim', age : 30 };
+    // => array는 위치를 맞춰주는 것이고, object는 위치가 아닌 이름을 맞춰주는 것이다.
+    // => ⭐️ 따라서 변수명을 key명과 똑같이 써야 한다!
+
+
+    // object도 마찬가지로 기본값 지정 가능
+    var { name, age = 31 } = { name : 'Kim' };
+
+    // 이름을 바꾸고 싶으면 ?
+    var { name : 이름, age = 31} = { name : 'kim' }; // 이름 = 'Kim'
+    // default 변수값 주기 가능
+    var { name : 이름 = 'Park'} = {}; // 이름 = 'Park'
+
+
+    //  *** 반대로 변수들을 object에 집어넣고 싶은 경우 ***
+    var name = 'Kim';
+    var age = 30;
+
+    var obj = { name : name, age : age };
+    var obj = { name, age }; // obj = { name : 'Kim', age : 30 }
+
+
+
+    //  *** 함수 파라미터 만들 때도 destructuring 문법 사용가능 ***
+    var obj = { name : 'Kim', age : 30 };
+
+    function 함수( {name, age} ){ // 파라미터는 변수랑 똑같음
+      console.log(name);
+      console.log(age);
+    }
+
+    // 함수({ name : 'Kim', age : 30 }); // 파라미터 변수 {name, age}에 이걸 각각 대입해주세요~
+    함수(obj); // Kim | 30
+
+
+    // array의 경우
+    function 함수2([name,age]){
+      console.log(name);
+      console.log(age);
+    }
+
+    함수2([1,2]); // 1 | 2
+
+
+
+    // Quiz
+    // Q1. a와 address와 number라는 변수는 각각 무슨 값을 가지고 있을까?
+    var [ number, address ] = [ 30, 'seoul' ];
+    var { address : a , number = 20 } = { address, number };
+    // var {address : a , number = 20 } = { address : 'seoul', number : 30 };
+    // a = 'seoul', address = 'seoul', number = 30
+
+
+    // Q2. 여기서 키, 몸무게, 상의사이즈, 하의사이즈 정보를 각각 뽑아서 4개의 변수를 만들고 싶습니다.
+    // (참고 : 데이터가 얼마나 복잡하든간에 좌우 형태를 똑같이 맞추시면 destructuring 문법으로 변수를 만들 수 있습니다.)
+    let 신체정보 = {
+      body: { 
+        height: 190, 
+        weight: 70 
+      },
+      size: ["상의 Large", "바지 30인치"],
+    };
+
+    let {
+      body: {
+        height, 
+        weight
+      },
+      size: [ 상의, 하의 ]
+    } = 신체정보;
+
+
+  </script>
+</body>
+</html>

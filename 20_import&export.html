@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>import/export</title>
+</head>
+<body>
+  <script></script>
+
+  <script type="module">
+    // === import a from '/library.js'; === 
+    // -> import 가져올거(작명가능) from '경로'
+
+
+    import {a,b} from '/library.js';
+    // -> export default가 아닌 export만 썼을 때는, export/import시 변수이름을 똑같이 써야함!
+    // -> 변수명이 마음에 안들면 새로 짓자 : import {변수 as 새변수명} from '경로'
+    console.log(a); // 10
+
+
+    import 새로운거 from '/library.js';
+    console.log(새로운거); // 30
+
+
+    // === export default c와 export {a,b} 동시에 import 하려면 === 
+    // import c,{a,b} from '/library.js';
+    // -> default가(=c) 맨 앞에 와야 함!
+
+
+    // === 모든걸 다 import 해오는 * 기호 ===
+    // import * as 별명 from '경로' 
+    // -> 별명을 출력해보면 module이 나옴 -> .a, .b를 붙여 출력 가능
+    // -> export default는 포함이 될 수 없음 -> import c, * as 별명 from '경로'
+    // console.log(별명.a)
+
+
+    // * IE에서는 안됨, 따라서 기본 <script src=""> 사용하기
+  </script>
+
+</body>
+</html>
