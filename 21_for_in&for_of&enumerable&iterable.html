@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>for in / for of 반복문과 enumerable,iterable 속성</title>
+</head>
+<body>
+  <script>
+    // 반복문
+    /* for (var i = 0; i < 3; i++){ // 그냥 for 반복문
+    }
+
+    [1,2,3].forEach(); // forEach() 반복문 (Array 전용) */
+
+
+    var 오브젝트 = { name : 'Kim', age: 30 };
+    // 오브젝트에서 자료 꺼낼때:
+    오브젝트.name; // 1번 방식
+    오브젝트['name']; // 2번 방식 
+    
+    
+    // =============== for in 반복문 ===============
+    for(var key in 오브젝트){ // for in 반복문 (Object 전용)
+      console.log(오브젝트[key]); // (2번 방식) Kim | 30
+    }
+    
+    /* for in 반복문 특징
+    1. enumerable(=셀 수 있는)한 것만 반복해줍니다. 
+      Object.getOwnPropertyDescriptor(오브젝트,'name');를 출력해보면,
+      {value: 'Kim', writable: true, enumerable: true, configurable: true} 이 출력됨
+      -> 일반 자료들을 항상 enumerable이 true가 기본값임
+    
+    2. 부모의 prototype도 반복해줍니다.
+    */
+    class 부모 {
+      
+    }
+    부모.prototype.name = 'Park';
+
+    var 오브젝트2 = new 부모();
+
+    for (var key in 오브젝트2){
+      // console.log(오브젝트2[key]); // Park -> 직접 가지고 있지 않은(prototype) 것이 출력됨
+
+      if(오브젝트2.hasOwnProperty(key)){ // 내가 직접 가지고 있는 값만 반복시키고 싶으면: hasOwnProperty로 true/false 구분
+        console.log(오브젝트2[key]); // Park이 출력되지 않음
+      } 
+    }
+
+    // 3. Object 자료형에만 씁니다.
+
+
+
+    // =============== for of 반복문 ===============
+    // : Array, 문자, arguments, NodeList, Map, Set 신자료형에도 쓸 수 있음
+
+    var 어레이 = [2,3,4,5];
+    for(var key of 어레이){ // for of 반복문 (iterable 전용)
+      console.log(key); // 2 | 3 | 4 | 5
+    }
+
+    // array 말고도 string도 됨
+    for(var 자료 of 'ㄴ이라ㅓㄴㅇ'){
+      console.log(자료); // ㄴ | 이 | 라 | ㅓ | ㄴ | ㅇ
+    }
+
+    // for of 반복문 특징 : iterable(=반복 가능한 객체)한 자료형에만 사용가능
+    console.log(어레이[Symbol.iterator]()); // Array Iterator {}
+    'ddd'[Symbol.iterator](); // StringIterator {}
+    // -> [Symbol.iterator]() 이게 있으면 iterable한 자료형임 => 내부 데이터 출력을 도와주는 함수 같은 것
+
+    // NodeList ?
+    /* document.getElementsByClassName();
+    document.querySelectorAll(); */
+    // -> 이것들을 쓰고난 자리에는 NodeList가 남음 : []
+    // -> [Symbol.iterator]() 이게 있음 -> for of 반복문 쓸 수 있음
+
+
+
+    // Q1. for of 반복문을 이용해서 구구단 출력하기
+    let data = [1,2,3,4,5,6,7,8,9];
+    for (let 단 = 2; 단 < 10; 단++){
+      for(var key of data){
+        console.log(단 + ' x ' + key + ' = ' + 단 * key);
+      }
+    }
+    
+
+
+    // Q2. key 값 마지막 부분에 오타 잘라내기(숫자 잘라내기)
+    var products = [
+      {
+        name1 : 'chair',
+        price1 : 7000,
+      },
+      {
+        name2 : 'sofa',
+        price : 5000,
+      },
+      {
+        name1 : 'desk',
+        price3 : 9000,
+      },
+    ]; 
+
+    // 하나만 하드코딩 해보기
+    let 오브젝트3 = {
+      name1 : 'chair'
+    };
+
+    //마지막글자를 숫자로변환했을 때 NaN이 안나오면 (숫자면)
+    if (isNaN(parseInt('name1'.slice(-1))) == false ) { // .slice(-1)이란 마지막 요소부터 마지막 첫번째 요소까지 추출하는 것 => '1'
+      // * parseInt(): 문자를 숫자로 변환하면 -> 1
+      // * isNaN() 안에 123(숫자)을 넣으면 false가 남고, '가나다'(문자)를 넣으면 true가 남음 -> false
+      
+      let newValue = 오브젝트3['name1'];
+      let newKey = 'name1'.slice(0, -1);  //맨 뒷 문자 제거 방법(0에서부터 마지막 전까지 추출 => name)
+      오브젝트3[newKey] = newValue;
+
+      delete 오브젝트3['name1']; // 원래있던 key 제거
+    }
+
+    console.log(오브젝트3); // {name: 'chair'}
+
+
+    // 반복문 돌리기
+    let newValue;
+    let newKey;
+
+    for (let item of products) {
+      for (let key in item) {
+        //마지막글자를 숫자로변환했을 때 NaN이 안나오면 (숫자면)
+        if (isNaN(parseInt(key.slice(-1))) == false ) {
+          newValue = item[key];
+          newKey = key.slice(0, -1); 
+          item[newKey] = newValue;
+          delete item[key]; 
+        }
+      }
+    }
+
+    console.log(products);
+
+
+  </script>
+</body>
+</html>
