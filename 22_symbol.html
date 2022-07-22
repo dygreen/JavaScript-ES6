@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symbol</title>
+</head>
+<body>
+  <script>
+    // *** 심볼 만드는 법 : Symbol('설명암거나')
+    var 심볼 = Symbol('설명');
+
+
+    // *** 심볼의 용도: Object 자료형의 비밀스런 key 값 저장 가능
+    // -> import 해온 파일 / 라이브러리 쓸 때 거기 있던 object에 자료를 추가하고 싶을 때 사용
+    // -> 반복문에도 안뜨니 기존 코드를 해칠 염려가 없음
+
+    var person = { name : 'Kim' };
+    // person.weight = 100; // 이렇게 쓰면 다 보임
+
+    var weight = Symbol('내 시크릿 몸무게임'); // Sym bol을 통해 안보이게 저장하기
+    person[weight] = 200; // person => {name: 'Kim', Symbol(내 시크릿 몸무게임): 200}
+
+    // Symbol: 반복문에서 출력 안됨
+    for (var key in person){ // -> for in은 enumerable한 것만 반복해주는데, Symbol은 enumerable이 아니기 때문에 반복 안해줌
+      console.log(person[key]); // Kim
+    }
+
+    // Symbole로 키(160cm) 저장하기
+    var height = Symbol('내 키임');
+    person[height] = 160;
+    
+    // Symbol 직접 넣어도 됨
+    var person2 = { name : 'Park', [height] : 160 };
+
+
+    // *** 심볼의 특징
+    // 1. 설명이 같다고 같은 Symbol이 아님 -> Symbol 만들 때마다 유니크한 Symbol이 생김
+    var a = Symbol('설명1');
+    var b = Symbol('설명1'); // a == b : false
+
+    // 2. 전역 변수같은 전역 Symbol ? Symbol.for() -> 같은 설명을 가지고 있는 심볼이 위에 이미 있으면 기존 심볼을 복붙해줌
+    var a2 = Symbol.for('설명1');
+    var b2 = Symbol.for('설명1'); // a2 == b2 : true
+
+    // 3. 기본 내장 Symbol들
+    var 어레이 = [2,3,4];
+    어레이[Symbol.iterator]; // array에 집어넣는 기본 Symbol -> 반복문에서 출력 안됨
+
+  </script>
+</body>
+</html>

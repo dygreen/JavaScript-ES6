@@ -23,3 +23,4 @@
 * destructuring + 퀴즈 풀이
 * import / export
 * for in / for of / enumerable/iterable 속성 + 퀴즈 풀이
+* Symbol
