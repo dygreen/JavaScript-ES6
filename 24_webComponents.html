@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Components: 커스텀 HTML 태그 만들기</title>
+</head>
+<body>
+
+  <custom-input name="비번"></custom-input>
+  <custom-input name="이메일"></custom-input>
+
+  <script>
+    // Web Components : JS문법으로 구현할 수 있는 브라우저 기본 기능
+
+    class 클래스 extends HTMLElement {
+      connectedCallback(){
+        /* * html 생성속도 빠른 방법 :
+        let 변수 = document.createElement('label');
+        this.appendChild(변수); */
+
+        // * 파라미터 문법 구현 가능
+        let name = this.getAttribute('name');
+
+        this.innerHTML = `<label>${name}인풋이에요</label><input>`
+        // this = 새로 성성될 <custom-input> 요소
+      }
+      static get observedAttributes(){ //* attribute 변경 감지하는 법
+        return ['name'] // = name이라는 attribute가 바뀌는지 감시해주세요
+      }
+      attributeChangeCallback(){ // * 바뀌면 이거 실행해줌
+        console.log(this.getAttribute('name'));
+      }
+    }
+
+    customElements.define('custom-input', 클래스); 
+
+
+    // 장점: html 중복 제거, 다른 페이지에서 재활용 가능
+
+  </script>
+</body>
+</html>

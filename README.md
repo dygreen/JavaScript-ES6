@@ -24,3 +24,5 @@
 * import / export
 * for in / for of / enumerable/iterable 속성 + 퀴즈 풀이
 * Symbol
+* Map / Set 자료형
+* Web Components

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map, Set 자료형</title>
+</head>
+<body>
+  <script>
+    // ======== Map 자료형: key, value를 저장함 ========
+    // * 자료 간의 연관성을 표현하기 위해 씀
+    var person = new Map();
+    // 자료 저장하기
+    person.set('name', 'Kim');
+    person.set('age', 20);
+    // Map(2) {'name' => 'Kim', 'age' => 20} :: name은 kim과 연관되어 있고, age는 20과 연관되어 있다~
+
+    // * Object 자료형은 자료 이름으로 '글자'만 가능 -> Map 자료형은 다 가능
+    person.set(100, 'Kim');
+    person.set([1,2,3], 'Kim');
+    // Map(4) {'name' => 'Kim', 'age' => 20, 100 => 'Kim', Array(3) => 'Kim'}
+
+    
+    // person.get('age'); // 자료 꺼내기
+    // person.delete('age'); // 자료 삭제하기
+    // person.size // 자료 갯수 세는 법 -> 4
+
+
+    // * 반복문으로 Map에서 자료 꺼내는 법
+    for (var key of person.keys()){
+      console.log(key); // name | age | 100 | (3) [1, 2, 3]
+    }
+    // person.keys() -> MapIterator {'name', 'age', 100, Array(3)}
+
+
+    // * Map 자료형에 직접 자료 집어넣을 땐
+    var person2 = new Map([
+      ['name', 'Kim'],
+      ['age', 20]
+    ]);
+
+
+
+    // ======== Set 자료형 ========
+    // 중복 자료를 허용하지 않는 Array 비슷한 것
+    var 출석부 = ['john','tom','andy','tom']; //(4) ['john', 'tom', 'andy', 'tom']
+    var 출석부2 = new Set(['john','tom','andy','tom']); // Set(3) {'john', 'tom', 'andy'}  
+    출석부 = [...출석부2]; // (3) ['john', 'tom', 'andy']
+
+
+    출석부2.add('sally'); // 자료 추가하기 Set(4) {'john', 'tom', 'andy', 'sally'}
+    출석부2.delete('sally'); // 자료 제거하기
+    출석부2.has('sally'); // 자료 있는지 확인(true/false)
+    출석부2.size; // 자료가 몇개 들어있는지 확인(중복값 제거한 갯수)
+
+  </script>
+</body>
+</html>
