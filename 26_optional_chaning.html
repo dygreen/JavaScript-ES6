@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>optional chaning</title>
+</head>
+<body>
+  <script>
+    var user = {
+      name : 'kim',
+      // age : 20
+      // age : { value : 20 }
+    }
+
+    console.log(user?.age); // 20
+    /* ** optional chaining 연산자
+    ?. 왼쪽이 null, undefined면
+    점 안찍어주고 undefined 남겨줌
+    */
+    // 언제씀? 중첩된 object 자료에서 자료 뽑을 때 reference 에러없이 안전하게 뽑을 수 있음
+
+    console.log(user.age?.value); // 에러가 나지 않고 undefined가 출력됨
+    console.log(user.age); // 점이 1개면 ?를 붙이지 않아도 에러가 나지 않고 undefined가 출력됨
+    // -> 점이 2개 이상일 때 에러가 발생하기 때문에 ?를 붙이는 것이 좋음
+
+    // * html 조작에도 유용
+    document.querySelector('#a')?.innerHTML // 에러가 나지 않음 (일종의 점 2개 찍는 것이기 때문)
+
+
+    /* * nullish coalescing 연산자
+    ?? 왼쪽이 null, undefined면
+    오른쪽 보여주쇼
+    */
+    console.log(undefined ?? '으잉'); // 으잉
+    var user2;
+    console.log(user2 ?? '로딩중'); // user2가 데이터를 받아오는데 3초가 걸리는 것이라면, 로딩중을 띄워놓을 수 있음
+  </script>
+</body>
+</html>

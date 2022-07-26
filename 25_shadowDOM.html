@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shadow DOM과 template으로 HTML 모듈화하기</title>
+</head>
+<body>
+
+  <!-- <input type="range"> --> 
+  <!-- 개발자 도구 - setting - show user agent shadow DOM -->
+
+  <div id="mordor"></div>
+  <label>asdfjls</label> <!-- 밖에 있는 <label>까지 오염되지 않음 : 모듈화-->
+  <custom-input></custom-input>
+
+
+  <!-- HTML 임시 보관함 <template> : 안에 작성한 태그들은 html 페이지에 렌더링 되지 않음 -->
+  <template id="template1">
+    <label>이메일을 입력하쇼</label><input>
+    <style>label {color: red}</style>
+  </template>
+
+
+  <script>
+    // shadow DOM 만드는 법
+    document.querySelector('#mordor').attachShadow({mode : 'open'}); // attachShadow: shadowRoot를 열어주는 함수
+    document.querySelector('#mordor').shadowRoot.innerHTML = 
+    '<p>심연에서 왔도다</p>'
+
+
+    // Web Component에 스타일도 넣고 싶으면? Shadow DOM 쓰면 좋음 (shadow DOM에 넣은 것들은 외부에 영향x)
+    class 클래스 extends HTMLElement {
+      connectedCallback(){
+        this.attachShadow({mode : 'open'});
+        /* this.shadowRoot.innerHTML = `<label>이메일을 입력하쇼</label><input>
+          <style>label {color: red}</style>` */
+        this.shadowRoot.append(template1.content.cloneNode(true)); // template 안에 있는 태그 쓰는 방법
+        
+        // 이벤트리스너 부착 가능
+        let el = this.shadowRoot.querySelector('label');
+        el.addEventListener('click', function(){
+          console.log('클릭함');
+        });
+      }
+    }
+
+    customElements.define("custom-input", 클래스);
+  </script>
+</body>
+</html>
