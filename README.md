@@ -27,3 +27,4 @@
 * Map / Set 자료형
 * Web Components + shadow DOM
 * optional chaning / nullish coalescing
+* 공룡게임 만들기
